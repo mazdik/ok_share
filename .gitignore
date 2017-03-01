@@ -1,0 +1,9 @@
+.idea
+dist
+server/node_modules
+database
+node_modules
+images
+
+# Logs
+*.log

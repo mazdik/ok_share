@@ -1,0 +1,10 @@
+{
+    "account_username": "",
+    "account_password": "",
+    "sleep_delay": 2000,
+    "proxy": "",
+    "proxyuserpwd": "",
+    "chrome": 0,
+    "firefox": 0,
+    "phantomjs": 1
+}
