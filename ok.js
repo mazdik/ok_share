@@ -40,7 +40,7 @@ async function login() {
 		await driver.get('https://ok.ru/');
 		await driver.findElement(by.name('st.email')).sendKeys(settings.account_username);
 		await driver.findElement(by.name('st.password')).sendKeys(settings.account_password);
-		await driver.findElement(by.xpath('//*[@id="loginContentBlock"]/form/div[5]/input')).click();
+		await driver.findElement(by.xpath('//*[@id="anonymPageContent"]/div[2]/div/div[3]/form/div[5]/input')).click();
     } catch (e) {
         logger.error('No login');
     }
