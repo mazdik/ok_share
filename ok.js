@@ -7,6 +7,8 @@ var webdriver = require('selenium-webdriver'),
 var settings = require('./settings.json');
 var logger = require('./logger');
 var promiseLimit = require('promise-limit');
+var dirty = require('dirty');
+var db = dirty(__dirname + '/db/links.db');
 
 var userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36';
 
@@ -47,13 +49,16 @@ async function login() {
 }
 
 async function share(url) {
-	try {
-		await driver.get('https://connect.ok.ru/offer?url=' + url);
-		await driver.findElement(by.css('button')).click();
-		logger.debug('OK: '+ url);
-    } catch (e) {
-        logger.error('No shared: '+ url);
-    }
+	if (!db.get(url)) {
+		try {
+			await driver.get('https://connect.ok.ru/offer?url=' + url);
+			await driver.findElement(by.css('button')).click();
+			logger.debug('OK: '+ url);
+			db.set(url, 1);
+	    } catch (e) {
+	        logger.error('No shared: '+ url);
+	    }
+	}
 }
 
 async function share_all(links) {
@@ -96,4 +101,10 @@ async function share_animals1() {
     }
 }
 
-share_animals1();
+
+db.on('load', function(length) {
+	if (length > 1000000) {
+		console.log('Length: ' + length + '. Need delete file db/links.db!!!');
+	}
+	share_animals1();
+});

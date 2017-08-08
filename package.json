@@ -5,6 +5,7 @@
   "main": "none",
   "dependencies": {
     "chromedriver": "^2.27.3",
+    "dirty": "^1.1.0",
     "log4js": "^1.1.0",
     "phantomjs-prebuilt": "^2.1.14",
     "promise-limit": "^2.3.0",

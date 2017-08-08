@@ -4,6 +4,7 @@ server/node_modules
 database
 node_modules
 images
-
-# Logs
+package-lock.json
+settings.json
 *.log
+*.db
