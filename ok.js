@@ -9,6 +9,7 @@ var logger = require('./logger');
 var promiseLimit = require('promise-limit');
 var dirty = require('dirty');
 var db = dirty(__dirname + '/db/links.db');
+var fs = require('fs');
 
 var userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36';
 
@@ -42,7 +43,7 @@ async function login() {
 		await driver.get('https://ok.ru/');
 		await driver.findElement(by.name('st.email')).sendKeys(settings.account_username);
 		await driver.findElement(by.name('st.password')).sendKeys(settings.account_password);
-		await driver.findElement(by.xpath('//*[@id="anonymPageContent"]/div[2]/div/div[3]/form/div[5]/div[1]/input')).click();
+		await driver.findElement(by.xpath('//*[@id="anonymPageContent"]/div[2]/div/div[2]/form/div[5]/div[1]/input')).click();
     } catch (e) {
         logger.error('No login');
     }
@@ -101,6 +102,14 @@ async function share_animals1() {
     }
 }
 
+function takeScreenshot() {
+    driver.takeScreenshot().then(function(data){
+	   var base64Data = data.replace(/^data:image\/png;base64,/,"")
+	   fs.writeFile(__dirname + "/logs/screensho.png", base64Data, 'base64', function(err) {
+	        if(err) logger.error(err);
+	   });
+	});
+}
 
 db.on('load', function(length) {
 	if (length > 1000000) {
